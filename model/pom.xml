@@ -15,7 +15,7 @@
         <dependency>
             <groupId>com.jad</groupId>
             <artifactId>share</artifactId>
-            <version>${project.version}</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
