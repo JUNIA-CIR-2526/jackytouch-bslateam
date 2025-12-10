@@ -1,36 +1,58 @@
 package com.jad.controller;
 
-import com.jad.model.*;
 import com.jad.share.ICar;
 import com.jad.share.IView;
 import com.jad.view.View;
 
+import com.jad.model.Car;
+import com.jad.model.decorators.*;
+import com.jad.model.behavior.neon.*;
+import com.jad.model.behavior.spoiler.*;
+import com.jad.model.behavior.rims.*;
+import com.jad.model.behavior.exhaust.*;
+
 public class Controller {
     private final IView view;
-    private ICar car;
+    private ICar currentCar;
 
     public Controller() {
         this.view = new View();
-        this.car = new Car();
     }
 
     public void start() {
-        this.view.display(this.car);
-        this.view.waitForInput();
+        this.currentCar = new Car();
+        this.updateAndWait();
 
-        this.car = new Neon(this.car, new Strategies.NeonDisco());
-        this.view.display(this.car);
-        this.view.waitForInput();
+        this.currentCar = new Neon(this.currentCar, new NeonDisco());
+        this.updateAndWait();
 
-        this.car = new Spoiler(this.car, new Strategies.SpoilerAerodynamic());
-        this.view.display(this.car);
-        this.view.waitForInput();
+        this.currentCar = new Spoiler(this.currentCar, new SpoilerAesthetic());
+        this.updateAndWait();
 
-        this.car = new Rims(this.car, new Strategies.RimsPerformance());
-        this.view.display(this.car);
-        this.view.waitForInput();
+        this.currentCar = new Rims(this.currentCar, new RimsShowOff());
+        this.updateAndWait();
 
-        this.car = new Exhaust(this.car, new Strategies.ExhaustDrag());
-        this.view.display(this.car);
+        this.view.archiveCar(this.currentCar);
+        this.view.getInput();
+
+        this.currentCar = new Car();
+        this.updateAndWait();
+
+        this.currentCar = new Exhaust(this.currentCar, new ExhaustDrag());
+        this.updateAndWait();
+
+        this.currentCar = new Spoiler(this.currentCar, new SpoilerAerodynamique());
+        this.updateAndWait();
+
+        this.currentCar = new Rims(this.currentCar, new RimsPerformance());
+        this.updateAndWait();
+
+        this.currentCar = new Neon(this.currentCar, new NeonSober());
+        this.view.display(this.currentCar);
+    }
+
+    private void updateAndWait() {
+        this.view.display(this.currentCar);
+        this.view.getInput();
     }
 }

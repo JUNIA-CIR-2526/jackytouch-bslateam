@@ -2,5 +2,7 @@ package com.jad.share;
 
 public interface IView {
     void display(ICar car);
-    void waitForInput();
+    void archiveCar(ICar car);
+    void displayMenu();
+    String getInput();
 }

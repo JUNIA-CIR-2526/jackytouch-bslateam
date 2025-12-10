@@ -1,13 +1,37 @@
 package com.jad.model;
 
 import com.jad.share.ICar;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Car implements ICar {
+    private List<String> baseShape;
+
+    public Car() {
+        try {
+            this.baseShape = loadFile("car_base.txt");
+        } catch (IOException e) {
+            this.baseShape = new ArrayList<>();
+            this.baseShape.add("ERREUR : car_base.txt introuvable dans les ressources");
+        }
+    }
+
+    private List<String> loadFile(String fileName) throws IOException {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
+        if (inputStream == null) throw new IOException(fileName);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+            return reader.lines().collect(Collectors.toList());
+        }
+    }
+
     @Override
     public List<String> getRenderedImage() {
-        return new ArrayList<>();
+        return baseShape;
     }
 
     @Override
