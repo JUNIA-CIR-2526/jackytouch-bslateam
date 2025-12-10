@@ -2,7 +2,6 @@ package com.jad.model;
 
 import com.jad.share.IBehavior;
 import com.jad.share.ICar;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,8 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class CarDecorator implements ICar {
-    protected ICar decoratedCar;
-    protected IBehavior behavior;
+    protected final ICar decoratedCar;
+    protected final IBehavior behavior;
     protected List<String> asciiArt;
 
     public CarDecorator(ICar decoratedCar, String fileName, IBehavior behavior) {

@@ -1,18 +1,19 @@
 package com.jad.main;
 
 import com.jad.controller.Controller;
-import com.jad.model.Strategies;
-import com.jad.share.IBehavior;
+import com.jad.model.*;
+import com.jad.share.ICar;
 
 public class Main {
     public static void main(String[] args) {
+        ICar car = new Car();
 
-        IBehavior spoiler = new Strategies.SpoilerExaggerated();
-        IBehavior neon = new Strategies.NeonDisco();
-        IBehavior rims = new Strategies.RimsShowOff();
-        IBehavior exhaust = new Strategies.ExhaustSport();
+        car = new Neon(car, new Strategies.NeonDisco());
+        car = new Spoiler(car, new Strategies.SpoilerAerodynamic());
+        car = new Rims(car, new Strategies.RimsPerformance());
+        car = new Exhaust(car, new Strategies.ExhaustDrag());
 
-        Controller controller = new Controller(spoiler, neon, rims, null);
+        Controller controller = new Controller(car);
         controller.start();
     }
 }
